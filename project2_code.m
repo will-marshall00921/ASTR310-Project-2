@@ -1,14 +1,15 @@
-%% Histogram 
-
-% Reading in ZTF catalog search results as a table
+%% Project 2 Code
+%% Reading in ZTF catalog search results as a table
 objects = readtable("Data\ztf_search_results_11-1.csv", 'Format', 'auto', 'TreatAsEmpty', 'null'); 
 important_values = objects((objects.ngoodobs >= 25), [22 26]); % Strips table to only objects 
 % with ngoodobs >= 25 and includes the cols with maxmag and minmag
 
+%% Calculating Change in Magnitude for each object kept
 important_values.deltamag(1 : height(important_values)) = ...
     important_values.maxmag(1 : height(important_values)) - ...
     important_values.minmag(1 : height(important_values)) ; % Change in magnitude for each object
 
+%% Creating a Scatter plot of Max vs. Min magnitude
 figure()
 plot(important_values.maxmag, important_values.minmag, '.') % Plotting the CV stars max vs min magnitudes
 hold on
@@ -29,6 +30,7 @@ legend('ZTF Data', 'Zero Change in Magnitude', '1.5 Magnitude Change',...
     '4 Magnitude Change', '8 Magnitude Change', 'Location', 'southeast')
 title('Minimum Magnitude vs. Maximum Magnitude')
 
+%% Creating the Histogram
 figure()
 hist = histogram(important_values.deltamag, 'BinEdges', [0 1.5 4 8 20]);
 hold on
